@@ -16,6 +16,11 @@ password :{
 date :{
     type : Date,
     default : Date.now
+},
+type :{
+    type : String,
+    default : "user",
+    required : true
 }
 });
 const User= mongoose.model('User',UserSchema);

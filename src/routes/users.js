@@ -9,12 +9,17 @@ const passport = require('passport');
 router.get('/login', (req, res) => {
     res.render('login');
 });
+//lecture login handle
+router.get('/loginLect', (req, res) => {
+    res.render('loginLect');
+});
 
+// Register handle
 router.get('/register', (req, res) => {
     res.render('register');
 });
 
-// Register handle
+
 router.post('/register', async (req, res) => {
     const { name, email, password, password2 } = req.body;
     let errors = [];
@@ -74,13 +79,46 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.post('/login',(req,res,next)=>{
-    passport.authenticate('local',{
-        successRedirect : '/dashboard',
-        failureRedirect : '/users/login',
+router.post('/login', async (req, res, next) => {
+    try {
+      const user = await User.findOne({ email: req.body.email, type: "user" });
+  
+      if (!user) {
+        // User with the specified email and type not found
+        req.flash('error_msg', 'Invalid Login');
+        return res.redirect('/users/login');
+      }
+  
+      passport.authenticate('user', {
+        successRedirect: '/dashboard',
+        failureRedirect: '/users/login',
+        failureFlash: true
+      })(req, res, next);
+    } catch (err) {
+      // Handle the error case
+      next(err);
+    }
+  });
+
+router.post('/loginLect', async (req,res,next)=>{
+    try {
+        const user = await User.findOne({ email: req.body.email, type: "lect" });
+    
+        if (!user) {
+          // User with the specified email and type not found
+          req.flash('error_msg', 'Invalid Login');
+          return res.redirect('/users/loginLect');
+        }
+    passport.authenticate('Lecturer',{
+        successRedirect : '/dashboardLect',
+        failureRedirect : '/users/loginLect',
         failureFlash : true,
         })(req,res,next);
-})
+    } catch (err) {
+        // Handle the error case
+        next(err);
+    } 
+});
 
 // Logout
 router.get('/logout', (req, res) => {
@@ -90,7 +128,7 @@ router.get('/logout', (req, res) => {
             console.log(err);
         }
         req.flash('success_msg','Now logged out');
-        res.redirect('/users/login');
+        res.redirect('/');
     });
 });
 
