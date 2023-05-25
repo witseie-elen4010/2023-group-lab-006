@@ -1,0 +1,181 @@
+<h1>Change Availability</h1>
+
+<form action="/lectInfo/availability" method="POST">
+  <div>
+    <h2>Check what days of the week you are available</h2>
+  </div>
+  <div>
+    <h3>First, check the checkbox if you are available, then change the time. </h3>
+  </div>
+  <div>
+    <label for="Monday">Monday</label>
+    <input
+    type="checkbox"
+    name="Monday"
+    />
+  </div>
+  <div>
+    <label for="TimeStartMon">Start time available on Monday</label>
+    <input
+    type="time"
+    name="TimeStartMon"
+    value="07:00"
+    />
+  </div>
+  <div>
+    <label for="TimeEndMon">End time available on Monday</label>
+    <input
+    type="time"
+    name="TimeEndMon"
+    value="19:00"
+    />
+  </div>
+  <div>
+    <h3> </h3>
+  </div>
+
+  <div>
+    <label for="Tuesday">Tuesday</label>
+    <input
+    type="checkbox"
+    name="Tuesday"
+    />
+  </div>
+  <div>
+    <label for="TimeStartTue">Time start available on Tuesday</label>
+    <input
+    type="time"
+    name="TimeStartTue"
+    value="07:00"
+    />
+  </div>
+  <div>
+    <label for="TimeEndTue">Time end available on Tuesday</label>
+    <input
+    type="time"
+    name="TimeEndTue"
+    value="19:00"
+    />
+  </div>
+  <div>
+    <h3> </h3>
+  </div>
+
+  <div>
+    <label for="Wednesday">Wednesday</label>
+    <input
+    type="checkbox"
+    name="Wednesday"
+    />
+  </div>
+  <div>
+    <label for="TimeStartWed">Time start available on Wednesday</label>
+    <input
+    type="time"
+    name="TimeStartWed"
+    value="07:00"
+    />
+  </div>
+  <div>
+    <label for="TimeEndWed">Time end available on Wednesday</label>
+    <input
+    type="time"
+    name="TimeEndWed"
+    value="19:00"
+    />
+  </div>
+  <div>
+    <h3> </h3>
+  </div>
+
+  <div>
+    <label for="Thursday">Thursday</label>
+    <input
+    type="checkbox"
+    name="Thursday"
+    />
+  </div>
+  <div>
+    <label for="TimeStartThu">Time start available on Thursday</label>
+    <input
+    type="time"
+    name="TimeStartThu"
+    value="07:00"
+    />
+  </div>
+  <div>
+    <label for="TimeEndThu">Time end available on Thursday</label>
+    <input
+    type="time"
+    name="TimeEndThu"
+    value="19:00"
+    />
+  </div>
+  <div>
+    <h3> </h3>
+  </div>
+
+  <div>
+    <label for="Friday">Friday</label>
+    <input
+    type="checkbox"
+    name="Friday"
+    />
+  </div>
+  <div>
+    <label for="TimeStartFri">Time start available on Friday</label>
+    <input
+    type="time"
+    name="TimeStartFri"
+    value="07:00"
+    />
+  </div>
+  <div>
+    <label for="TimeEndFri">Time end available on Friday</label>
+    <input
+    type="time"
+    name="TimeEndFri"
+    value="19:00" 
+    />
+  </div>
+  <div>
+    <h3> </h3>
+  </div>
+
+  <div>
+    <h2>How long should each consultation be?</h2>
+  </div>
+  <div>
+    <label for="numMinutes">Consultation length (minutes)</label>
+    <input
+    type="number"
+    name="numMinutes"
+    min="30"
+    max="120"
+    step="30"
+    value="60"
+    />
+  </div>
+
+  <div>
+    <h2>How many stdents are you willing to meet in one meeting?</h2>
+  </div>
+  <div>
+    <label for="numStudents">Number of students</label>
+    <input
+    type="number"
+    name="numStudents"
+    min="1"
+    max="10"
+    value="5"
+    />
+  </div>
+
+  <div>
+    <h2>If you are happy with your choices, click submit changes to change your availability.</h2>
+    <h3>This will only affect new consultations that are made from now on. </h3>
+    <button type="submit" class="btn btn-primary btn-block">Submit changes</button>
+  </div>
+  
+
+</form>
