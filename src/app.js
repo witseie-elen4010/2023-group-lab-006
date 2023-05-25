@@ -38,6 +38,7 @@ app.use(passport.session());
 //Routes
 app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
+app.use('/lectInfo',require('./routes/lectInfo'));
 
 //app.listen(3000); 
 const port = process.env.Port || 3000
