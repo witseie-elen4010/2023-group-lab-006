@@ -6,10 +6,10 @@ const InfoSchema  = new mongoose.Schema({
     required : true
   },
   availDays : {
-    type : [String]
+    type : [Boolean]
   },
   availTimes : {
-    type : [String]
+    type : [[String]]
   },
   consultLength : {
     type : Number,
