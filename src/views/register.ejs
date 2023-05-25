@@ -1,45 +1,113 @@
-<h1>Register</h1>
-<%- include ('./partials/messages') %>
-<form action="/users/register" method="POST">
-<div>
-    <label for="name">Name</label>
-    <input
-      type="name"
-      name="name"
-      placeholder="Enter Name"
-      value="<%= typeof name != 'undefined' ? name : '' %>"
-    />
-  
-</div>
-<div>
-    <label for="email">Email</label>
-    <input
-      type="email"
-      name="email"
-      placeholder="Enter Email"
-      value="<%= typeof email != 'undefined' ? email : '' %>"
-    />
-  </div>
-  <div >
-    <label for="password">Password</label>
-    <input
-      type="password"
-      name="password"
-      placeholder="Create Password"
-      value="<%= typeof password != 'undefined' ? password : '' %>"
-    />
-  </div>
-  <div >
-    <label for="password2">Confirm Password</label>
-    <input
-      type="password"
-      name="password2"
-      placeholder="Confirm Password"
-      value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
-    />
-  </div>
-  <button type="submit" class="btn btn-primary btn-block">
-    Register
-  </button>
-</form>
-<p >Have An Account? <a href="/users/login">Login</a></p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register to Meet with Me!</title>
+    <style> 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {  
+            text-align: center;
+            background-color: #fefefe;
+            padding: 50px;
+            border-radius: 20px; 
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .button { 
+            display: inline-block;
+            color: #fff;
+            background-color: #3498db;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0fe524;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <%- include ('./partials/messages') %>
+
+        <form action="/users/register" method="POST">
+            <div>
+                <label for="name">Name</label>
+                <input
+                  type="name"
+                  name="name"
+                  placeholder="Enter Name"
+                  value="<%= typeof name != 'undefined' ? name : '' %>"
+                />
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter Email"
+                  value="<%= typeof email != 'undefined' ? email : '' %>"
+                />
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Create Password"
+                  value="<%= typeof password != 'undefined' ? password : '' %>"
+                />
+            </div>
+            <div>
+                <label for="password2">Confirm Password</label>
+                <input
+                  type="password"
+                  name="password2"
+                  placeholder="Confirm Password"
+                  value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
+                />
+            </div>
+            <button type="submit" class="button">Register</button>
+        </form>
+        <p>Have An Account? <a href="/users/login" class="button">Login</a></p>
+    </div>
+</body>
+
+</html>
