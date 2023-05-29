@@ -1,0 +1,54 @@
+<h1>Schedule a consultation with a lecturer</h1>
+
+<form action="/consult/book", method="post">
+  <div>
+    <label for="lectEmail">Enter the email of the lecturer you would like to meet with:</label>
+    <input 
+      type="email" 
+      name="lectEmail"
+    />
+  </div>
+
+  <div>
+    <label for="consultDate">What day would you like to consult?</label>
+    <input 
+      type="date"
+      name="consultDate"
+    />
+  </div>
+
+  <div>
+    <label for="consultDate">What day would you like to consult?</label>
+    <input 
+      type="date"
+      name="consultDate"
+    />
+  </div>
+  
+  <div>
+    <label for="consultTime">What time would you like the consultation to start?</label>
+    <input
+      type="time"
+      name="consultTime"
+      value="07:00"
+    />
+  </div>
+
+  <div>
+    <label for="duration">How long would you like the consultation to be?</label>
+    <input
+      type="number"
+      name="duration"
+      min="30"
+      max="120"
+      step="30"
+      value="60"
+    />
+  </div>
+
+  <div>
+    <h2>If you are happy with your choices, click book to schedule this consultation.</h2>
+    <button type="submit" class="btn btn-primary btn-block">book</button>
+  </div>
+
+</form>
