@@ -4,6 +4,10 @@ const consultSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    organiser: {
+        type: String,
+        required: true
+    },
     consultDay: {
         type: Date,
         required: true
