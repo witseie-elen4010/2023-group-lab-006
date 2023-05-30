@@ -20,7 +20,7 @@ jobs:
       run: |
         cd src
         npm install
-        npm test --coverage
+        make app
         ls -la
 
     - name: Coveralls
