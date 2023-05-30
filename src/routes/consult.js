@@ -4,6 +4,7 @@ const consult = require('../models/consultation');
 const lectInfo = require('../models/lecturerInfo');
 const {ensureAuthenticated} = require("../config/auth.js");
 const lecturerInfo = require('../models/lecturerInfo');
+const actionLog = require('../models/actionLog');
 //const { findOne } = require('../models/user');
 
 // open booking handle
@@ -166,12 +167,26 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
       if (noOverlap && isNotMax) {
         console.log('new booking made')
         const saveConsult = newConsult.save()
+        //log successful booking
+        const newLog = new actionLog({
+          actorEmail: organiserUser.email,
+          actionTask: "Successfully created new booking"
+        })
+        const saveLog = newLog.save()
+
         res.redirect('/dashboard')
       }
       
     }
 
     if (!validBooking || !noOverlap || !isNotMax) {
+      //log unsuccessful booking
+      const newLog = new actionLog({
+        actorEmail: organiserUser.email,
+        actionTask: "Attempted to make invalid new booking"
+      })
+      const saveLog = newLog.save()
+      
       res.send('Invalid booking: ' + errMessage)
     }
 

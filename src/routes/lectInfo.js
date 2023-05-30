@@ -4,6 +4,7 @@ const router = express.Router();
 const lectInfo = require('../models/lecturerInfo');
 const {ensureAuthenticated} = require("../config/auth.js");
 const lecturerInfo = require('../models/lecturerInfo');
+const actionLog = require('../models/actionLog');
 
 // availability handle
 router.get('/availability',ensureAuthenticated , (req, res) => {
@@ -82,6 +83,12 @@ router.post('/availability', ensureAuthenticated , async (req,res,next)=>{
     
     const saveInfo = newInfo.save()
     console.log('added lect info')
+
+    const newLog = new actionLog({
+      actorEmail: organiserUser.email,
+      actionTask: "Updated their availability information"
+    })
+    const saveLog = newLog.save()
     
     res.redirect('/dashboardLect')
 
