@@ -18,6 +18,10 @@ const InfoSchema  = new mongoose.Schema({
   maxStudents : {
     type : Number,
     default : 5
+  },
+  maxConsults: {
+    type : Number,
+    required : true
   }
 });
 const lecturerInfo= mongoose.model('lecturerInfo',InfoSchema);
