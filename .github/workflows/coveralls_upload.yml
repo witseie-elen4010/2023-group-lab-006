@@ -24,6 +24,7 @@ jobs:
         
     - name: change folders
       run: cd src
+    - run: pwd
       
     - name: npm install, make app
       run: |
