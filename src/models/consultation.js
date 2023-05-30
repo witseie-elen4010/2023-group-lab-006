@@ -4,6 +4,10 @@ const consultSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    organiser: {
+        type: String,
+        required: true
+    },
     consultDay: {
         type: Date,
         required: true
@@ -14,6 +18,10 @@ const consultSchema = new mongoose.Schema({
         required: true
     },
     consultStart: {
+        type: String,
+        required: true
+    },
+    consultEnd: {
         type: String,
         required: true
     }
