@@ -4,7 +4,7 @@ const consult = require('../models/consultation');
 const lectInfo = require('../models/lecturerInfo');
 const {ensureAuthenticated} = require("../config/auth.js");
 const lecturerInfo = require('../models/lecturerInfo');
-const { findOne } = require('../models/user');
+//const { findOne } = require('../models/user');
 
 // open booking handle
 router.get('/book',ensureAuthenticated , (req, res) => {
@@ -31,12 +31,22 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
 
   try{
 
+    //add duration to start time and get the consultation end time
+    let durMin = duration%60;
+    let durHour = Math.trunc(duration/60);
+    let consultEndMin = (Number(consultTime.slice(3,5)) + durMin)%60
+    let consultEndHour = Math.trunc((Number(consultTime.slice(3,5)) + durMin)/60) + durHour + Number(consultTime.slice(0,2))
+    let endTimeMins = (consultEndMin.toString()).padStart(2,"0");
+    let endTimeHour = (consultEndHour.toString()).padStart(2,"0");
+    let consultEndTime = endTimeHour + ':' + endTimeMins
+
     const newConsult = new consult({
       lecturer: lectEmail,
       organiser: organiserUser.email,
       consultDay: consultDate,
       consultLength: duration,
-      consultStart: consultTime
+      consultStart: consultTime,
+      consultEnd: consultEndTime
     })
 
     
@@ -84,14 +94,7 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
               console.log('invalid time booked (too early)')
             }
             
-            //add duration to start time and see that this is less than the end time
-            let durMin = duration%60;
-            let durHour = Math.trunc(duration/60);
-            let consultEndMin = (Number(consultTime.slice(3,5)) + durMin)%60
-            let consultEndHour = Math.trunc((Number(consultTime.slice(3,5)) + durMin)/60) + durHour + Number(consultTime.slice(0,2))
-            let endTimeMins = (consultEndMin.toString()).padStart(2,"0");
-            let endTimeHour = (consultEndHour.toString()).padStart(2,"0");
-            let consultEndTime = endTimeHour + ':' + endTimeMins
+            //check that consultation end time is valid
             if (consultEndTime > lectDayTimes[1]){
               validBooking = false
               console.log('consultation end time exceeds lecturer hours')
@@ -103,10 +106,31 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
 
     }
 
-    //if the booking is valid, then it can be made and saved to the db
+    //if the booking is valid, then it can be checked against other bookings
     if (validBooking) {
-      console.log('new booking made')
-      const saveConsult = newConsult.save()
+      let noOverlap = true;
+      //find other booking with the lecturer for the date and time given 
+      const overlapConsult = await consult.find({lecturer: lectEmail, consultDay: consultDate})
+
+      //cycle through all bookings on the day if any and check if the bookings overlaps the new booking
+      for (let bookingX of overlapConsult){ 
+        //check if the consult start time is during time of other booking
+        if (consultTime > bookingX.consultStart && consultTime < bookingX.consultEnd){
+          console.log('booking starts during other consult')
+          noOverlap = false;
+        }
+        //check if the consult end time is during time of the other booking
+        if (consultEndTime > bookingX.consultStart && consultEndTime < bookingX.consultEnd){
+          console.log('booking ends during other consult')
+          noOverlap = false;
+        }
+      }
+
+      if (noOverlap) {
+        console.log('new booking made')
+        const saveConsult = newConsult.save()
+      }
+      
     }
 
   }

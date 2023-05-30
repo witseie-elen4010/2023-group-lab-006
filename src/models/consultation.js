@@ -20,6 +20,10 @@ const consultSchema = new mongoose.Schema({
     consultStart: {
         type: String,
         required: true
+    },
+    consultEnd: {
+        type: String,
+        required: true
     }
 });
 const consultation = mongoose.model('consultation', consultSchema);
