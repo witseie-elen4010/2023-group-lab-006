@@ -94,7 +94,7 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
           } else {
             //date is valid - onto other checks
             //check if the duration exceeds lecturer specified duration
-            if (duration > lecturerInfo.consultLength) {
+            if (duration > foundLecturer.consultLength) {
               validBooking = false
               //console.log('duration too long')
               errMessage += 'The duration you requested is longer than the '
@@ -125,6 +125,7 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
     }
 
     let noOverlap = true;
+    let isNotMax = true;
     //if the booking is valid, then it can be checked against other bookings
     if (validBooking) {
       
@@ -155,7 +156,14 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
         }
       }
 
-      if (noOverlap) {
+      //check that the number of bookings does not exceed max set by lecturer
+      if (overlapConsult.length + 1 > foundLecturer.maxConsults) {
+        isNotMax = false
+        errMessage += 'The maximum number of consulations for this day' +
+        ' is already reached.'
+      }
+
+      if (noOverlap && isNotMax) {
         console.log('new booking made')
         const saveConsult = newConsult.save()
         res.redirect('/dashboard')
@@ -163,7 +171,7 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
       
     }
 
-    if (!validBooking || !noOverlap) {
+    if (!validBooking || !noOverlap || !isNotMax) {
       res.send('Invalid booking: ' + errMessage)
     }
 
