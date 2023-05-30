@@ -1,4 +1,4 @@
-on: "push"
+on: ["push", "pull_request"]
 
 name: Test Coveralls
 
@@ -20,7 +20,7 @@ jobs:
       run: |
         cd src
         npm install
-        npm test --coverage
+        npm test --coverage --watchAll
         ls -la
 
     - name: Coveralls
