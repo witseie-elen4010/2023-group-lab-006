@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const actionLog = require('../models/actionLog');
 
 // Login handle
 router.get('/login', (req, res) => {
@@ -51,6 +52,12 @@ router.post('/register', async (req, res) => {
         try {
             const user = await User.findOne({ email: email });
 
+            const newLog = new actionLog({
+                actorEmail: req.body.email,
+                actionTask: "Attempted to register"
+            })
+            const saveLog = newLog.save()
+
             if (user) {
                 errors.push({ msg: 'Email already registered' });
                 res.render('register', { errors, name, email, password, password2 });
@@ -69,6 +76,12 @@ router.post('/register', async (req, res) => {
                 // Save user
                 const savedUser = await newUser.save();
                 console.log(savedUser);
+                const newLog = new actionLog({
+                    actorEmail: req.body.email,
+                    actionTask: "Successfully registered"
+                })
+                const saveLog = newLog.save()
+
                 req.flash('success_msg','You have now registered!')            
                 res.redirect('/users/login');
             }
@@ -82,6 +95,12 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res, next) => {
     try {
       const user = await User.findOne({ email: req.body.email, type: "user" });
+
+      const newLog = new actionLog({
+        actorEmail: req.body.email,
+        actionTask: "Attempted login as user"
+      })
+      const saveLog = newLog.save()
   
       if (!user) {
         // User with the specified email and type not found
@@ -103,6 +122,12 @@ router.post('/login', async (req, res, next) => {
 router.post('/loginLect', async (req,res,next)=>{
     try {
         const user = await User.findOne({ email: req.body.email, type: "lect" });
+
+        const newLog = new actionLog({
+            actorEmail: req.body.email,
+            actionTask: "Attempted login as lecturer"
+        })
+        const saveLog = newLog.save()
     
         if (!user) {
           // User with the specified email and type not found
