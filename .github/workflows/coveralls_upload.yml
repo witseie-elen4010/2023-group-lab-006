@@ -28,6 +28,8 @@ jobs:
       
     - name: npm install, make app
       run: |
+        cd src
+        pwd
         npm install
         make app
 
