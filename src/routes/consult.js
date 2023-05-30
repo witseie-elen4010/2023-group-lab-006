@@ -20,7 +20,8 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
     lectEmail, 
     consultDate, 
     consultTime, 
-    duration
+    duration,
+    consultTitle
   } = req.body;
 
   
@@ -48,7 +49,9 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
       consultDay: consultDate,
       consultLength: duration,
       consultStart: consultTime,
-      consultEnd: consultEndTime
+      consultEnd: consultEndTime,
+      Title: consultTitle,
+      otherAttendees: [organiserUser.email]
     })
 
     let errMessage = '';    

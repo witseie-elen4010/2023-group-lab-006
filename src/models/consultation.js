@@ -24,6 +24,14 @@ const consultSchema = new mongoose.Schema({
     consultEnd: {
         type: String,
         required: true
+    },
+    Title: {
+        type: String,
+        required: true
+    },
+    otherAttendees: {
+        type: [String],
+        default: []
     }
 });
 const consultation = mongoose.model('consultation', consultSchema);
