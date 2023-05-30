@@ -9,29 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - run: ls -la
     - uses: actions/checkout@v1
-      with:
-        persist-credentials: false
-    - run: ls -la
-    - run: pwd
 
     - name: Use Node.js 16.x
       uses: actions/setup-node@v3
       with:
         node-version: 16.x
-
-        
-    - name: change folders
-      run: cd src
-    - run: pwd
       
     - name: npm install, make app
       run: |
         cd src
-        pwd
         npm install
-        make app
+        npm test --coverage
+        ls -la
 
     - name: Coveralls
       uses: coverallsapp/github-action@v2
