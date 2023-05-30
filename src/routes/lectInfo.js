@@ -21,7 +21,7 @@ router.post('/availability', ensureAuthenticated , async (req,res,next)=>{
     Wednesday, TimeStartWed, TimeEndWed,
     Thursday, TimeStartThu, TimeEndThu,
     Friday, TimeStartFri, TimeEndFri,
-    numMinutes, numStudents
+    numMinutes, numStudents, numMeetings
   } = req.body;
 
   // console.log(Monday,TimeEndMon,numMinutes)
@@ -71,7 +71,8 @@ router.post('/availability', ensureAuthenticated , async (req,res,next)=>{
       availDays: dayArray,
       availTimes: timeArray,
       consultLength: numMinutes,
-      maxStudents: numStudents
+      maxStudents: numStudents,
+      maxConsults: numMeetings
     })
 
     // const info = await lecturerInfo.findOneAndUpdate({email: user.email},newInfo)
