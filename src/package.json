@@ -12,6 +12,9 @@
     "passport-local": "^1.0.0",
     "save-dev": "^0.0.1-security"
   },
+  "jest" : {
+    "collectCoverage" : true
+  },
   
   "scripts": {
     "test" : "jest"
