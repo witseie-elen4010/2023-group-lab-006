@@ -18,6 +18,9 @@ jobs:
       with:
         node-version: 16.x
 
+    - name: change folders
+      run: cd src
+      
     - name: npm install, make app
       run: |
         npm install
