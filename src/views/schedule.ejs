@@ -1,5 +1,14 @@
 <h1>Schedule a consultation with a lecturer</h1>
 
+<body>
+  <b>
+    Enter the email of the lecturer you are trying to meet. 
+    <br>
+    Also specify the date, start time and duration of the consultation. 
+    <p></p>
+  </b>
+</body>
+
 <form action="/consult/book", method="post">
   <div>
     <label for="lectEmail">Enter the email of the lecturer you would like to meet with:</label>
@@ -40,7 +49,9 @@
 
   <div>
     <h2>If you are happy with your choices, click book to schedule this consultation.</h2>
-    <button type="submit" class="btn btn-primary btn-block">book</button>
+    <button type="submit" class="btn btn-primary btn-block">Book</button>
+    <p>Abandon booking? <a href="/dashboard" class="button">Abandon</a></p>
   </div>
 
 </form>
+

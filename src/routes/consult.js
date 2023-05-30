@@ -49,7 +49,7 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
       consultEnd: consultEndTime
     })
 
-    
+    let errMessage = '';    
     let validBooking = true;
     
     //do validation here
@@ -57,7 +57,8 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
     //find the lecturer via the email given
     const foundLecturer = await lecturerInfo.findOne({email: lectEmail})
     if (!foundLecturer) { 
-      console.log('lecturer NOT found')
+      //console.log('lecturer NOT found')
+      errMessage += 'The lecturer email you entered does not belong to a lecturer. '
       validBooking = false;
       //add potential error message
     } else {
@@ -68,36 +69,42 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
       const todayDate = Date.now();
       if (dateGiven < todayDate) {
         validBooking = false
-        console.log('the date given is before today')
+        //console.log('the date given is before today')
+        errMessage += 'The date you entered is a day before today. '
       } else {
         let day = dateGiven.getDay() - 1
         if (day === -1 || day === 5) {
           validBooking = false
-          console.log('day cannot be on a weekend')
+          //console.log('day cannot be on a weekend')
+          errMessage += 'The date you entered is a day on the weekend. '
         } else {
           const isDayAvailable = foundLecturer.availDays[day]
           if (!isDayAvailable) {
             validBooking = false
-            console.log('lecturer is not available on this day' )
+            //console.log('lecturer is not available on this day' )
+            errMessage += 'The lectuerer is not available on the day of the date you entered. '
           } else {
             //date is valid - onto other checks
             //check if the duration exceeds lecturer specified duration
             if (duration > lecturerInfo.consultLength) {
               validBooking = false
-              console.log('duration too long')
+              //console.log('duration too long')
+              errMessage += 'The duration you requested is longer than the lecturer is willing to meet for. '
             }
 
             //check if the consultation start time is valid
             lectDayTimes = foundLecturer.availTimes[day]
             if (lectDayTimes[0] > consultTime) {
               validBooking = false
-              console.log('invalid time booked (too early)')
+              //console.log('invalid time booked (too early)')
+              errMessage += 'The time you requested the meeting to start is too early. '
             }
             
             //check that consultation end time is valid
             if (consultEndTime > lectDayTimes[1]){
               validBooking = false
-              console.log('consultation end time exceeds lecturer hours')
+              //console.log('consultation end time exceeds lecturer hours')
+              errMessage += 'The consulatation will end too late for the lecturer. '
             }
           }
 
@@ -106,9 +113,10 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
 
     }
 
+    let noOverlap = true;
     //if the booking is valid, then it can be checked against other bookings
     if (validBooking) {
-      let noOverlap = true;
+      
       //find other booking with the lecturer for the date and time given 
       const overlapConsult = await consult.find({lecturer: lectEmail, consultDay: consultDate})
 
@@ -116,12 +124,14 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
       for (let bookingX of overlapConsult){ 
         //check if the consult start time is during time of other booking
         if (consultTime > bookingX.consultStart && consultTime < bookingX.consultEnd){
-          console.log('booking starts during other consult')
+          //console.log('booking starts during other consult')
+          errMessage += 'The consulatation you requested starts during another consultation. '
           noOverlap = false;
         }
         //check if the consult end time is during time of the other booking
         if (consultEndTime > bookingX.consultStart && consultEndTime < bookingX.consultEnd){
-          console.log('booking ends during other consult')
+          //console.log('booking ends during other consult')
+          errMessage += 'The consulatation you requested ends during another consultation. '
           noOverlap = false;
         }
       }
@@ -129,8 +139,13 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
       if (noOverlap) {
         console.log('new booking made')
         const saveConsult = newConsult.save()
+        res.redirect('/dashboard')
       }
       
+    }
+    
+    if (!validBooking || !noOverlap) {
+      res.send('Invalid booking: ' + errMessage)
     }
 
   }
