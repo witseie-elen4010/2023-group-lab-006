@@ -1,37 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<h1>Lecturer Dashboard</h1>
-<p> Welcome <%= user.name %></p>
-
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturer Dashboard | Meet with Me!</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fefefe;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+        }
+
+        h1, h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            color: #fff;
+            background-color: #3498db;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0fe524;
+        }
+
+        .table {
+            margin: auto;
+            margin-bottom: 20px;
+        }
+
+        .selectDate input {
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <body>
-            <table class="table">
-                <tbody id="calendar"></tbody>
-            </table>
-            <h2>When would you like to Meet with ME?</h2>
-            <div class = "dropdown">
-            <div class="selectDate" >
-                <input type = "datetime-local">
-                </div>
-              </div>
-              <button type = "button" >Okay</button>
+    <div class="container">
+        <h1>Lecturer Dashboard</h1>
+        <p>Welcome <%= user.name %></p>
+        <table class="table">
+            <tbody id="calendar"></tbody>
+        </table>
+        <h2>When would you like to Meet with Me?</h2>
+        <div class="selectDate">
+            <input type="datetime-local">
         </div>
-      </div>
-</body>
-
-<body>
-    <div>
-        <a href="/lectInfo/availability" >Set Availability</a>
+        <a href="#" class="button">Okay</a>
+        <a href="/lectInfo/availability" class="button">Set Availability</a>
+        <a href="/users/logout" class="button">Logout</a>
     </div>
-    
 </body>
 
 </html>
-
-</html>
-
-<a href="/users/logout">Logout</a>
