@@ -1,4 +1,5 @@
 //APP.JS in ~/app.js
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
@@ -7,6 +8,7 @@ const expressEjsLayout = require('express-ejs-layouts')
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const consultRoutes = require('./routes/consult.js');
 
 require("./config/passport")(passport)
 //mongoose
@@ -16,6 +18,7 @@ mongoose.connect('mongodb://127.0.0.1:/test',{useNewUrlParser: true, useUnifiedT
 
 //EJS
 app.set('view engine','ejs');
+app.set('views',path.join(__dirname,'/views'));
 app.use(expressEjsLayout);
 //BodyParser
 app.use(express.urlencoded({extended : false}));
@@ -40,8 +43,13 @@ app.use('/',require('./routes/index'));
 app.use('/users',require('./routes/users'));
 app.use('/lectInfo',require('./routes/lectInfo'));
 app.use('/consult', require('./routes/consult'));
+app.use('/', consultRoutes);
+//app.use('/dashboard', require())
+// app.get('/dashboard', (req, res) => {
+//    res.render('dashboardLect');
+//  });
 
 //app.listen(3000); 
-const port = process.env.Port || 3000
+const port = process.env.PORT || 3000
 app.listen(port)
 console.log('Express server running on port', port)

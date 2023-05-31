@@ -1,4 +1,18 @@
 {
+  "name": "MeetWithMe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "jest"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "jest": {
+    "collectCoverage": true
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "connect-flash": "^0.1.1",
@@ -11,12 +25,6 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "save-dev": "^0.0.1-security"
-  },
-  "jest" : {
-    "collectCoverage" : true
-  },
-  
-  "scripts": {
-    "test" : "jest"
   }
 }
+
