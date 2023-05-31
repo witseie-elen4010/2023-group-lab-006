@@ -12,7 +12,7 @@ const consultRoutes = require('./routes/consult.js')
 
 require('./config/passport')(passport)
 // mongoose
-mongoose.connect('mongodb://127.0.0.1:/test', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://MeetWithMe:psd123@cluster0.hxe24pp.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('connected,,'))
   .catch((err) => console.log(err))
 
