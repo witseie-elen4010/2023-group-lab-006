@@ -1,77 +1,143 @@
-<h1>Schedule a consultation with a lecturer</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Schedule a Consultation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
+    .container {
+      text-align: center;
+    }
+
+    h1, h2, p {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="email"],
+    input[type="date"],
+    input[type="time"],
+    input[type="number"],
+    input[type="text"] {
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button[type="submit"],
+    .btn-primary,
+    .button {
+      padding: 8px 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover,
+    .btn-primary:hover,
+    .button:hover {
+      background-color: #0fe524;
+    }
+  </style>
+</head>
 <body>
-  <b>
-    Enter the email of the lecturer you are trying to meet. 
-    <br>
-    Also specify the date, start time and duration of the consultation. 
-    <p></p>
-  </b>
+  <div class="container">
+    <h1>Schedule a consultation with a lecturer</h1>
+
+    <div>
+      <b>
+        Enter the email of the lecturer you are trying to meet. 
+        <br>
+        Also specify the date, start time and duration of the consultation. 
+        <p></p>
+      </b>
+    </div>
+
+    <form action="/consult/book" method="post">
+      <div>
+        <label for="lectEmail">
+          Enter the email of the lecturer you would like to meet with:
+        </label>
+        <input 
+          type="email" 
+          name="lectEmail"
+        />
+      </div>
+
+      <div>
+        <label for="consultDate">What day would you like to consult?</label>
+        <input 
+          type="date"
+          name="consultDate"
+        />
+      </div>
+      
+      <div>
+        <label for="consultTime">
+          What time would you like the consultation to start?
+        </label>
+        <input
+          type="time"
+          name="consultTime"
+          value="07:00"
+        />
+      </div>
+
+      <div>
+        <label for="duration">
+          How long would you like the consultation to be?
+        </label>
+        <input
+          type="number"
+          name="duration"
+          min="30"
+          max="120"
+          step="30"
+          value="60"
+        />
+      </div>
+
+      <div>
+        <label for="consultTitle">
+          Give a descriptive title for the consultation.
+        </label>
+        <input 
+          type="text" 
+          name="consultTitle" 
+          placeholder="ELEN4020 Exam Prep"
+          required
+        />
+      </div>
+
+      <div>
+        <h2>If you are happy with your choices, click book to schedule this 
+          consultation.
+        </h2>
+        <button type="submit" class="btn-primary btn-block">Book</button>
+        <p>Abandon booking? <a href="/dashboard" class="button">Abandon</a></p>
+      </div>
+    </form>
+  </div>
 </body>
-
-<form action="/consult/book", method="post">
-  <div>
-    <label for="lectEmail">
-      Enter the email of the lecturer you would like to meet with:
-    </label>
-    <input 
-      type="email" 
-      name="lectEmail"
-    />
-  </div>
-
-  <div>
-    <label for="consultDate">What day would you like to consult?</label>
-    <input 
-      type="date"
-      name="consultDate"
-    />
-  </div>
-  
-  <div>
-    <label for="consultTime">
-      What time would you like the consultation to start?
-    </label>
-    <input
-      type="time"
-      name="consultTime"
-      value="07:00"
-    />
-  </div>
-
-  <div>
-    <label for="duration">
-      How long would you like the consultation to be?
-    </label>
-    <input
-      type="number"
-      name="duration"
-      min="30"
-      max="120"
-      step="30"
-      value="60"
-    />
-  </div>
-
-  <div>
-    <label for="consultTitle">
-      Give a descriptive title for the consultation.
-    </label>
-    <input 
-      type="text" 
-      name="consultTitle" 
-      placeholder="ELEN4020 Exam Prep"
-      required
-    />
-  </div>
-
-  <div>
-    <h2>If you are happy with your choices, click book to schedule this 
-      consultation.
-    </h2>
-    <button type="submit" class="btn btn-primary btn-block">Book</button>
-    <p>Abandon booking? <a href="/dashboard" class="button">Abandon</a></p>
-  </div>
-
-</form>
-
+</html>
