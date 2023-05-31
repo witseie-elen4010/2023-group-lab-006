@@ -105,6 +105,7 @@
           <th>Consult End</th>
           <th>Title</th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -120,6 +121,13 @@
               <% if (consultation.organiser === user.email) { %>
                 <form action="/consult/cancel1/<%= consultation._id %>" method="post">
                   <button type="submit" class="btn-danger">Cancel</button>
+                </form>
+              <% } %>
+            </td>
+            <td>
+              <% if (consultation.organiser !== user.email) { %>
+                <form action="/consult/join/<%= consultation._id %>" method="post">
+                  <button type="submit" class="btn-danger">Join</button>
                 </form>
               <% } %>
             </td>
