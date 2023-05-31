@@ -7,6 +7,7 @@ const lecturerInfo = require('../models/lecturerInfo');
 const actionLog = require('../models/actionLog');
 //const { findOne } = require('../models/user');\
 const consultation = require('../models/consultation');
+const Consultation = require('../models/consultation');
 
 // open booking handle
 router.get('/book',ensureAuthenticated , (req, res) => {
@@ -16,17 +17,9 @@ router.get('/book',ensureAuthenticated , (req, res) => {
 
 });
 
-router.get('/dashboard', ensureAuthenticated, async (req, res) => {
-  try {
-    // Retrieve consultations for the logged-in lecturer
-    const consultations = await consult.find({ lecturer: req.user.email });
-
-    // Render the dashboardLect.ejs view and pass the consultations as data
-    res.render('dashboardLect', { user: req.user, consultations: consultations });
-  } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
-  }
+router.get('/:email', async (req, res) => {
+  const consultations = await consultation.find({lecturer: req.params.email});
+  res.json(consultations);
 });
 
 router.post('/cancel/:id', async (req, res) => {
@@ -38,6 +31,48 @@ router.post('/cancel/:id', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
+
+// Cancel booking handle
+router.post('/cancel1/:id', ensureAuthenticated, async (req, res) => {
+  try {
+    const consultationId = req.params.id;
+    const consultation = await Consultation.findById(consultationId);
+
+    if (!consultation) {
+      req.flash('error_msg', 'Consultation not found');
+      return res.redirect('/dashboard');
+    }
+
+    // Check if the consultation was made by the current user
+    if (consultation.organiser !== req.user.email) {
+      req.flash('error_msg', 'You are not authorized to cancel this consultation');
+      return res.redirect('/dashboard');
+    }
+
+    // Perform cancellation logic
+    await Consultation.findByIdAndDelete(consultationId);
+
+    // Log cancellation
+    const newLog = new actionLog({
+      actorEmail: req.user.email,
+      actionTask: 'Successfully canceled booking',
+    });
+    await newLog.save();
+
+    req.flash('success_msg', 'Booking canceled successfully');
+    res.redirect('/dashboard');
+  } catch (err) {
+    console.error(err);
+    req.flash('error_msg', 'An error occurred');
+    res.redirect('/dashboard');
+  }
+});
+
+
+
+
 
 router.post('/book', ensureAuthenticated , async (req,res,next)=>{
   //get data from form in schedule.ejs
