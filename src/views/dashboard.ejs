@@ -124,13 +124,6 @@
                 </form>
               <% } %>
             </td>
-            <td>
-              <% if (consultation.organiser !== user.email) { %>
-                <form action="/consult/join/<%= consultation._id %>" method="post">
-                  <button type="submit" class="btn-danger">Join</button>
-                </form>
-              <% } %>
-            </td>
           </tr>
         <% }) %>
       </tbody>
