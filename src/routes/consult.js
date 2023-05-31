@@ -253,7 +253,7 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
       //overlap the new booking
       for (let bookingX of overlapConsult){ 
         //check if the consult start time is during time of other booking
-        if (consultTime > bookingX.consultStart && 
+        if (consultTime >= bookingX.consultStart && 
           consultTime < bookingX.consultEnd){
           //console.log('booking starts during other consult')
           errMessage += 'The consulatation you requested starts during another'
@@ -262,7 +262,7 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
         }
         //check if the consult end time is during time of the other booking
         if (consultEndTime > bookingX.consultStart && 
-          consultEndTime < bookingX.consultEnd){
+          consultEndTime <= bookingX.consultEnd){
           //console.log('booking ends during other consult')
           errMessage += 'The consulatation you requested ends during another'
           + ' consultation. '
