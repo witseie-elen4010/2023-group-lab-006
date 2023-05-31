@@ -1,34 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<h1>Dashboard</h1>
-<p> Welcome <%= user.name %></p>
-
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
-
 <body>
-            <table class="table">
-                <tbody id="calendar"></tbody>
-            </table>
-            <h2>When would you like to Meet with ME?</h2>
-            <div class = "dropdown">
-            <div class="selectDate" >
-                <input type = "datetime-local">
-                </div>
-              </div>
-              <button type = "button" >Okay</button>
-        </div>
-      </div>
-</body>
+  <h1>Dashboard</h1>
+  <p>Welcome <%= user.name %></p>
 
-<body>
-    <div>
-        <a href="/consult/book" >Book consultation</a>
-    </div> 
-</body>
+<h2>Select Lecturer</h2>
+<form action="/dashboard" method="get"> <!-- Update the form to submit to /dashboard -->
+  <div class="dropdown">
+    <select id="lecturerEmail" name="lecturerEmail" > <!-- Submit the form on change -->
+      <% lecturers.forEach(lecturer => { %>
+        <option value="<%= lecturer.email %>" <% if (lecturer.email === selectedLecturerEmail) { %>selected<% } %>><%= lecturer.email %></option>
+      <% }) %>
+    </select>
+    <button type="submit">Load Consultations</button>
+  </div>
+</form>
 
+<table class="table">
+    <thead>
+      <tr>
+        <th>Lecturer</th>
+        <th>Organiser</th>
+        <th>Consult Day</th>
+        <th>Consult Start</th>
+        <th>Consult End</th>
+        <th>Title</th>
+        <th></th> <!-- Column for cancel button -->
+      </tr>
+    </thead>
+    <tbody>
+      <% consultations.forEach(consultation => { %>
+        <tr>
+          <td><%= consultation.lecturer %></td>
+          <td><%= consultation.organiser %></td>
+          <td><%= consultation.consultDay.toISOString().split('T')[0] %></td>
+          <td><%= consultation.consultStart %></td>
+          <td><%= consultation.consultEnd %></td>
+          <td><%= consultation.Title %></td>
+          <td>
+            <% if (consultation.organiser === user.email) { %>
+              <form action="/consult/cancel1/<%= consultation._id %>" method="post">
+                <button type="submit" class="btn btn-danger">Cancel</button>
+              </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+</table>  
+
+  <a href="/consult/book">Book consultation</a>
+  <a href="/users/logout">Logout</a>
+</body>
 </html>
-
-<a href="/users/logout">Logout</a>
