@@ -80,6 +80,7 @@
                 <tr>
                     <th>Lecturer</th>
                     <th>Organiser</th>
+                    <th>Attendees</th>
                     <th>Consult Day</th>
                     <th>Consult Start</th>
                     <th>Consult End</th>
@@ -92,6 +93,7 @@
                 <tr>
                     <td><%= consultation.lecturer %></td>
                     <td><%= consultation.organiser %></td>
+                    <td><%= consultation.otherAttendees %></td>
                     <td><%= consultation.consultDay.toISOString().split('T')[0] %></td>
                     <td><%= consultation.consultStart %></td>
                     <td><%= consultation.consultEnd %></td>
