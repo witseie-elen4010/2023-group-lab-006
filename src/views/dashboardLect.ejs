@@ -1,49 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Lecturer Dashboard</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturer Dashboard</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fefefe;
+            padding: 5px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 100%;
+        }
+
+        h1, h2, p {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .table {
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        td, th {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        .button {
+            display: inline-block;
+            color: #fff;
+            background-color: #3498db;
+            padding: 12px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            width: auto;
+            margin: 10px 5px; /* Increased margin-top and margin-bottom here */
+        }
+
+        .button:hover {
+            background-color: #0fe524;
+        }
+    </style>
 </head>
+
 <body>
-  <h1>Lecturer Dashboard</h1>
-  <p>Welcome <%= user.name %></p>
+    <div class="container">
+        <h1>Lecturer Dashboard</h1>
+        <p>Welcome <%= user.name %></p>
 
-  <h2>Consultations</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Lecturer</th>
-        <th>Organiser</th>
-        <th>Consult Day</th>
-        <th>Consult Start</th>
-        <th>Consult End</th>
-        <th>Title</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% consultations.forEach(consultation => { %>
-        <tr>
-          <td><%= consultation.lecturer %></td>
-          <td><%= consultation.organiser %></td>
-          <td><%= consultation.consultDay.toISOString().split('T')[0] %></td>
-          <td><%= consultation.consultStart %></td>
-          <td><%= consultation.consultEnd %></td>
-          <td><%= consultation.Title %></td>
-          <td>
-            <form action="/consult/cancel/<%= consultation._id %>" method="post">
-              <button type="submit" class="btn btn-danger">Cancel</button>
-            </form>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
+        <h2>Consultations</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Lecturer</th>
+                    <th>Organiser</th>
+                    <th>Consult Day</th>
+                    <th>Consult Start</th>
+                    <th>Consult End</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% consultations.forEach(consultation => { %>
+                <tr>
+                    <td><%= consultation.lecturer %></td>
+                    <td><%= consultation.organiser %></td>
+                    <td><%= consultation.consultDay.toISOString().split('T')[0] %></td>
+                    <td><%= consultation.consultStart %></td>
+                    <td><%= consultation.consultEnd %></td>
+                    <td><%= consultation.Title %></td>
+                    <td>
+                        <form action="/consult/cancel/<%= consultation._id %>" method="post">
+                            <button type="submit" class="button">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
 
-  <div>
-    <a href="/lectInfo/availability">Set Availability</a>
-  </div>
+        <div>
+            <a href="/lectInfo/availability" class="button">Set Availability</a>
+        </div>
 
-  <a href="/users/logout">Logout</a>
+        <a href="/users/logout" class="button">Logout</a>
+    </div>
 </body>
+
 </html>
