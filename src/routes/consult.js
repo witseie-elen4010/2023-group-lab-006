@@ -92,7 +92,8 @@ router.post('/join/:id', ensureAuthenticated, async (req, res) => {
     //await Consultation.findByIdAndDelete(consultationId);
     let consultLect = await lectInfo.findOne({email: consultation.lecturer})
     let newAttendees = consultation.otherAttendees;
-    if (!newAttendees.includes(req.user.email) && newAttendees.length < consultLect.maxStudents) {
+    if (!newAttendees.includes(req.user.email) && 
+        newAttendees.length < consultLect.maxStudents) {
       newAttendees.push(req.user.email);
       await Consultation.findByIdAndUpdate(consultationId, 
         {otherAttendees: newAttendees});
