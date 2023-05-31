@@ -14,26 +14,11 @@ router.get('/register', (req,res)=>{
     res.render('register');
 })
 
-// router.get('/dashboard',ensureAuthenticated,(req,res)=>{
-//     res.render('dashboard',{
-//         user: req.user
-//         });
-// })
-
-// router.get('/dashboardLect',ensureAuthenticated,(req,res)=>{
-//     res.render('dashboardLect',{
-//         user: req.user
-//         });
-// })
 router.get('/dashboardLect',ensureAuthenticated, async (req, res) => {
     const consultations = await Consultation.find({ lecturer: req.user.email });
     res.render('dashboardLect', { consultations: consultations , user: req.user });
   });
 
-// router.get('/dashboard',ensureAuthenticated, async (req, res) => {
-//     const lecturers = await LecturerInfo.find({});
-//     res.render('dashboard', {lecturers: lecturers , user: req.user});
-//   });
 router.get('/dashboard', ensureAuthenticated, async (req, res) => {
     try {
       const lecturers = await LecturerInfo.find({});
@@ -47,10 +32,30 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
     }
   });
 
-
 router.get('/actionLog', async(req,res) => {
   const actionLogs = await actionLog.find({});
   res.render('actionLog', { actionLogs: actionLogs }); 
+  })
+
+router.get('/lecturerInfo', ensureAuthenticated, async(req,res) => {
+  const lecturerInfos = await LecturerInfo.find({});
+  let Info = [];
+  let days = ["Monday","Tuesday", "Wednesday", "Thursday", "Friday"];
+  let dayTimes = "";
+  let infoObject = {};
+  for(let lectX of lecturerInfos){
+    dayTimes = "";
+    for(let i = 0; i<5; i++){
+      if (lectX.availDays[i])
+      {
+        dayTimes += days[i] + ": " + lectX.availTimes[i][0]
+          + " to " + lectX.availTimes[i][1] + "\n"
+      }
+    }
+    infoObject = {email: lectX.email, days: dayTimes}
+    Info.push(infoObject)
+  }
+  res.render('lecturerinfo', { Info: Info}); 
   })
 
 module.exports = router; 
