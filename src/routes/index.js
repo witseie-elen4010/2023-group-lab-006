@@ -3,6 +3,8 @@ const router  = express.Router();
 const {ensureAuthenticated} = require("../config/auth.js")
 const Consultation = require('../models/consultation');
 const LecturerInfo = require('../models/lecturerInfo');
+const actionLog = require('../models/actionLog');
+
 //welcome page
 router.get('/', (req,res)=>{
     res.render('welcome');
@@ -44,5 +46,11 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
       res.sendStatus(500);
     }
   });
+
+
+router.get('/actionLog', async(req,res) => {
+  const actionLogs = await actionLog.find({});
+  res.render('actionLog', { actionLogs: actionLogs }); 
+  })
 
 module.exports = router; 
