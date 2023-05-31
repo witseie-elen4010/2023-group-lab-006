@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lecturer Dashboard</title>
-    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,7 +25,7 @@
             padding: 5px;
             border-radius: 20px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
+            width: 99%;
             height: 100%;
         }
 
@@ -66,6 +66,10 @@
         .button:hover {
             background-color: #0fe524;
         }
+
+        .attendees {
+            white-space: pre-line;
+        }
     </style>
 </head>
 
@@ -93,7 +97,11 @@
                 <tr>
                     <td><%= consultation.lecturer %></td>
                     <td><%= consultation.organiser %></td>
-                    <td><%= consultation.otherAttendees %></td>
+                    <td>
+                        <% consultation.otherAttendees.forEach(attendee => { %>
+                            <div><%= attendee %></div>
+                        <% }) %>
+                    </td>
                     <td><%= consultation.consultDay.toISOString().split('T')[0] %></td>
                     <td><%= consultation.consultStart %></td>
                     <td><%= consultation.consultEnd %></td>
