@@ -33,7 +33,7 @@ const consultSchema = new mongoose.Schema({
         type: [String],
         default: []
     }
-});
+}); 
 const consultation = mongoose.model('consultation', consultSchema);
 
 module.exports = consultation;

@@ -5,7 +5,8 @@ const lectInfo = require('../models/lecturerInfo');
 const {ensureAuthenticated} = require("../config/auth.js");
 const lecturerInfo = require('../models/lecturerInfo');
 const actionLog = require('../models/actionLog');
-//const { findOne } = require('../models/user');
+//const { findOne } = require('../models/user');\
+const consultation = require('../models/consultation');
 
 // open booking handle
 router.get('/book',ensureAuthenticated , (req, res) => {
@@ -13,6 +14,29 @@ router.get('/book',ensureAuthenticated , (req, res) => {
     user: req.user
     });
 
+});
+
+router.get('/dashboard', ensureAuthenticated, async (req, res) => {
+  try {
+    // Retrieve consultations for the logged-in lecturer
+    const consultations = await consult.find({ lecturer: req.user.email });
+
+    // Render the dashboardLect.ejs view and pass the consultations as data
+    res.render('dashboardLect', { user: req.user, consultations: consultations });
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+});
+
+router.post('/cancel/:id', async (req, res) => {
+  try {
+    await consultation.findByIdAndDelete(req.params.id);
+    res.redirect('/dashboardLect');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 });
 
 router.post('/book', ensureAuthenticated , async (req,res,next)=>{

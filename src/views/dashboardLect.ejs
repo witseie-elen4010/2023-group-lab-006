@@ -1,37 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<h1>Lecturer Dashboard</h1>
-<p> Welcome <%= user.name %></p>
-
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <title>Lecturer Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
-
 <body>
-            <table class="table">
-                <tbody id="calendar"></tbody>
-            </table>
-            <h2>When would you like to Meet with ME?</h2>
-            <div class = "dropdown">
-            <div class="selectDate" >
-                <input type = "datetime-local">
-                </div>
-              </div>
-              <button type = "button" >Okay</button>
-        </div>
-      </div>
+  <h1>Lecturer Dashboard</h1>
+  <p>Welcome <%= user.name %></p>
+
+  <h2>Consultations</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Lecturer</th>
+        <th>Organiser</th>
+        <th>Consult Day</th>
+        <th>Consult Start</th>
+        <th>Consult End</th>
+        <th>Title</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% consultations.forEach(consultation => { %>
+        <tr>
+          <td><%= consultation.lecturer %></td>
+          <td><%= consultation.organiser %></td>
+          <td><%= consultation.consultDay.toISOString().split('T')[0] %></td>
+          <td><%= consultation.consultStart %></td>
+          <td><%= consultation.consultEnd %></td>
+          <td><%= consultation.Title %></td>
+          <td>
+            <form action="/consult/cancel/<%= consultation._id %>" method="post">
+              <button type="submit" class="btn btn-danger">Cancel</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <div>
+    <a href="/lectInfo/availability">Set Availability</a>
+  </div>
+
+  <a href="/users/logout">Logout</a>
 </body>
-
-<body>
-    <div>
-        <a href="/lectInfo/availability" >Set Availability</a>
-    </div>
-    
-</body>
-
 </html>
-
-</html>
-
-<a href="/users/logout">Logout</a>

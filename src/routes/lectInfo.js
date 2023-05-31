@@ -85,7 +85,7 @@ router.post('/availability', ensureAuthenticated , async (req,res,next)=>{
     console.log('added lect info')
 
     const newLog = new actionLog({
-      actorEmail: organiserUser.email,
+      actorEmail: user.email,
       actionTask: "Updated their availability information"
     })
     const saveLog = newLog.save()
@@ -96,9 +96,6 @@ router.post('/availability', ensureAuthenticated , async (req,res,next)=>{
     console.log(err);
     res.sendStatus(500);
 }
-
-
-
 
 });
 
