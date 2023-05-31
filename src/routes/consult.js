@@ -70,6 +70,59 @@ router.post('/cancel1/:id', ensureAuthenticated, async (req, res) => {
   }
 });
 
+// Cancel booking handle
+router.post('/join/:id', ensureAuthenticated, async (req, res) => {
+  try {
+    const consultationId = req.params.id;
+    const consultation = await Consultation.findById(consultationId);
+
+    if (!consultation) {
+      req.flash('error_msg', 'Consultation not found');
+      return res.redirect('/dashboard');
+    }
+
+    // Check if the consultation was made by the current user
+    if (consultation.organiser === req.user.email) {
+      req.flash('error_msg', 'You are already a part of the consultation '
+      +'you organised');
+      return res.redirect('/dashboard');
+    }
+
+    // Perform cancellation logic
+    //await Consultation.findByIdAndDelete(consultationId);
+    let consultLect = await lectInfo.findOne({email: consultation.lecturer})
+    let newAttendees = consultation.otherAttendees;
+    if (!newAttendees.includes(req.user.email) && newAttendees.length < consultLect.maxStudents) {
+      newAttendees.push(req.user.email);
+      await Consultation.findByIdAndUpdate(consultationId, 
+        {otherAttendees: newAttendees});
+    } else {
+      const newLog = new actionLog({
+        actorEmail: req.user.email,
+        actionTask: 'Unable to join booking',
+      });
+      await newLog.save();
+      req.flash('error_msg', 'You are already a part of the consultation or'
+      +'the consulation is full');
+      return res.redirect('/dashboard');
+    }
+
+    // Log cancellation
+    const newLog = new actionLog({
+      actorEmail: req.user.email,
+      actionTask: 'Successfully joined booking',
+    });
+    await newLog.save();
+
+    req.flash('success_msg', 'Joined successfully');
+    res.redirect('/dashboard');
+  } catch (err) {
+    console.error(err);
+    req.flash('error_msg', 'An error occurred');
+    res.redirect('/dashboard');
+  }
+});
+
 
 
 
