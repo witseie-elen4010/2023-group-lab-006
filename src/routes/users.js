@@ -96,18 +96,24 @@ router.post('/login', async (req, res, next) => {
     try {
       const user = await User.findOne({ email: req.body.email, type: "user" });
 
-      const newLog = new actionLog({
+      let newLog = new actionLog({
         actorEmail: req.body.email,
         actionTask: "Attempted login as user"
       })
-      const saveLog = newLog.save()
+      let saveLog = newLog.save()
   
       if (!user) {
         // User with the specified email and type not found
         req.flash('error_msg', 'Invalid Login');
         return res.redirect('/users/login');
       }
-  
+      
+      newLog = new actionLog({
+        actorEmail: req.body.email,
+        actionTask: "Successfully logged in as user"
+      })
+      saveLog = newLog.save()
+
       passport.authenticate('user', {
         successRedirect: '/dashboard',
         failureRedirect: '/users/login',
@@ -123,18 +129,25 @@ router.post('/loginLect', async (req,res,next)=>{
     try {
         const user = await User.findOne({ email: req.body.email, type: "lect" });
 
-        const newLog = new actionLog({
+        let newLog = new actionLog({
             actorEmail: req.body.email,
             actionTask: "Attempted login as lecturer"
         })
-        const saveLog = newLog.save()
+        let saveLog = newLog.save()
     
         if (!user) {
           // User with the specified email and type not found
           req.flash('error_msg', 'Invalid Login');
           return res.redirect('/users/loginLect');
         }
-    passport.authenticate('Lecturer',{
+
+        newLog = new actionLog({
+            actorEmail: req.body.email,
+            actionTask: "Successfully logged in as user"
+          })
+        saveLog = newLog.save()
+
+        passport.authenticate('Lecturer',{
         successRedirect : '/dashboardLect',
         failureRedirect : '/users/loginLect',
         failureFlash : true,
