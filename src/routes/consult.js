@@ -300,7 +300,9 @@ router.post('/book', ensureAuthenticated , async (req,res,next)=>{
       })
       const saveLog = newLog.save()
       
-      res.send('Invalid booking: ' + errMessage)
+      //res.send('Invalid booking: ' + errMessage)
+      req.flash('error_msg', 'Invalid booking: ' + errMessage);
+      return res.redirect('/book');
     }
 
   }

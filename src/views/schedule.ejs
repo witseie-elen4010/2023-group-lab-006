@@ -66,7 +66,7 @@
     <h1>Schedule a consultation with a lecturer</h1>
     <div>
       <p></p>
-      <a href="/lecturerInfo" class="button">Availability of Lecturers'</a>
+      <a href="/lecturerInfo" class="button">Availability of Lecturers</a>
       <p></p>
     <div>
     <div>
@@ -138,6 +138,8 @@
         <h2>If you are happy with your choices, click book to schedule this 
           consultation.
         </h2>
+        <%- include ('./partials/messages') %>
+        <p></p>
         <button type="submit" class="btn-primary btn-block">Book</button>
         <p>Abandon booking? <a href="/dashboard" class="button">Abandon</a></p>
       </div>
