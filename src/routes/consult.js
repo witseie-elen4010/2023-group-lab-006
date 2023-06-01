@@ -70,7 +70,7 @@ router.post('/cancel1/:id', ensureAuthenticated, async (req, res) => {
   }
 });
 
-// Cancel booking handle
+// Join booking handle
 router.post('/join/:id', ensureAuthenticated, async (req, res) => {
   try {
     const consultationId = req.params.id;
@@ -88,8 +88,7 @@ router.post('/join/:id', ensureAuthenticated, async (req, res) => {
       return res.redirect('/dashboard');
     }
 
-    // Perform cancellation logic
-    //await Consultation.findByIdAndDelete(consultationId);
+    // Perform booking logic
     let consultLect = await lectInfo.findOne({email: consultation.lecturer})
     let newAttendees = consultation.otherAttendees;
     if (!newAttendees.includes(req.user.email) && 
@@ -98,17 +97,18 @@ router.post('/join/:id', ensureAuthenticated, async (req, res) => {
       await Consultation.findByIdAndUpdate(consultationId, 
         {otherAttendees: newAttendees});
     } else {
+      //Log unsuccessful booking
       const newLog = new actionLog({
         actorEmail: req.user.email,
         actionTask: 'Unable to join booking',
       });
       await newLog.save();
       req.flash('error_msg', 'You are already a part of the consultation or'
-      +'the consulation is full');
+      +' the consulation is full');
       return res.redirect('/dashboard');
     }
 
-    // Log cancellation
+    // Log booking if successful
     const newLog = new actionLog({
       actorEmail: req.user.email,
       actionTask: 'Successfully joined booking',
