@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <title>Dashboard</title>
-  <style>
+  <style> /* The styles for all the elements are described here, using CSS, and this style is consistent with the entire webapp*/
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
@@ -81,6 +81,7 @@
 <body>
   <div class="container">
     <h1>Dashboard</h1>
+    <%- include ('./partials/messages') %>
     <p>Welcome <%= user.name %></p>
 
     <h2>Select Lecturer</h2>
